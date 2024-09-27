@@ -1,16 +1,16 @@
 function getNeighbors(row, col, graph) {
-
+  let neighbors = [];
   // Check top
-
+  if (row - 1 >= 0 && graph[row - 1][col] === 1) neighbors.push([row - 1, col]);
   // Check bottom
-
+  if (row + 1 < graph.length && graph[row + 1][col] === 1) neighbors.push([row + 1, col]);
   // Check left
-
+  if (col - 1 >= 0 && graph[row][col - 1] === 1) neighbors.push([row, col - 1]);
   // Check right
-
+  if (col + 1 < graph[row].length && graph[row][col + 1] === 1) neighbors.push([row, col + 1]);
   // Return neighbors
+  return neighbors
 
-  // Your code here
 }
 
 
@@ -38,6 +38,25 @@ function islandSize(row, col, graph) {
   // return size
 
   // Your code here
+  let visited = new Set();
+  let stack = [[row, col]];
+  visited.add(stack[0].toString())
+  let size = 0;
+
+  while (stack.length > 0){
+    let currentNode = stack.pop();
+    let neighbors = getNeighbors(currentNode[0], currentNode[1], graph);
+    size++;
+
+    for (let neighbor of neighbors){
+      if (!visited.has(neighbor.toString())){
+        visited.add(neighbor.toString());
+        stack.push(neighbor);
+      }
+    }
+  }
+
+  return size
 }
 
 module.exports = [getNeighbors, islandSize];
